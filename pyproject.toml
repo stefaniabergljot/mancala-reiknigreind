@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "mancala"
+version = "0.1.0"
+description = ""
+authors = ["Máni Bernharðsson <manib@hey.com>", "Tómas Philip Rúnarsson <tpr@hi.is>, ChatGPT"]
+readme = "README.md"
+
+[tool.ruff]
+# Enable all `pydocstyle` rules, limiting to those that adhere to the
+# numpy convention via `convention = "numpy"`, below.
+#select = ["D"]
+ignore = [
+  "D417",  # Don't require documentation for every function parameter.
+  "E501"  # Leave line-lenghts to black.
+]
+ignore-init-module-imports = true
+
+[tool.ruff.pydocstyle]
+convention = "numpy"
+
+[tool.poetry.dependencies]
+python = "<3.13,>=3.9"
+numpy = "^1.26.0"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.5.1"
+ruff = "^0.0.292"
+black = "^23.9.1"
+pre-commit = "^3.4.0"
+flameprof = "^0.4"
+
+[tool.poetry.build]
+generate-setup-file = true
+
+[build-system]
+requires = ["poetry-core", "setuptools>=68.2.2"]
+build-backend = "poetry.core.masonry.api"
