@@ -26,7 +26,7 @@ python -OO sandbox.py
 
 
 ## Board state
-The board is represented as a 14-element array.array.
+The board is represented as a 14-element `array.array`.
 We can visualize the intitial state as:
 ```
                      Player 1
@@ -39,9 +39,9 @@ We can visualize the intitial state as:
                  0  1  2  3  4  5
                      Player 0
 ```
-where the numbers inside the box indicate seeds
-and the numbers outside the box indicate the indexes
-of the array representing the board state.
+where the numbers inside the box represent the number of seeds in pits
+and the numbers outside the box indicate the indexes of the pits
+in the array represententation.
 
 
 ## Groups
@@ -50,7 +50,7 @@ At a minimum you need to create the file `manacala/groups/your_group/action.py`
 and provide the function `action` inside that file.
 The `action` function should have the signature 
 ```
-def action(board: array.array, legal_actions: Tuple[int, ...] -> int
+def action(board: array.array, legal_actions: Tuple[int, ...]) -> int
 ```
 that receives the board state and legal actions and returns an int representing the index of the pit that is chosen.
 See `mancala/groups/example_group/action.py`.
@@ -58,7 +58,8 @@ See `mancala/groups/example_group/action.py`.
 NOTE: You are not allowed to change the board within your action function.
 If you need to change it, copy it:
 ```
-board = copy(board)
+from copy import deepcopy
+board = deepcopy(board)
 ```
 
 

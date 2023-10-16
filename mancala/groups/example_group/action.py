@@ -16,5 +16,6 @@ def action(board: array.array, legal_actions: Tuple[int, ...]) -> int:
     # Your action, do somthing smart.
     # Make sure not to change the board.
     # If you need to change it, copy it:
-    # board = copy(board)
+    # from copy import deepcopy
+    # board = deepcopy(board)
     raise NotImplementedError
