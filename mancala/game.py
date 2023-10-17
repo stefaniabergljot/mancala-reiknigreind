@@ -88,7 +88,7 @@ def legal_actions(board: Board, player: Player) -> Tuple[int, ...]:
     return tuple(pit for pit in RANGES[player] if board[pit] > 0)
 
 
-def play_turn(board: Board, player: Player, action: int) -> Tuple[Board, Player]:
+def play_turn(board: Board, player: Player, action: int) -> Player:
     assert (
         sum(board) == TOTAL_SEEDS
     ), f"Illegal board on turn start. total_seeds={sum(board)} != {TOTAL_SEEDS=}"
@@ -130,7 +130,7 @@ def play_turn(board: Board, player: Player, action: int) -> Tuple[Board, Player]
         sum(board) == TOTAL_SEEDS
     ), f"Illegal board on after capture. total_seeds={sum(board)} != {TOTAL_SEEDS=}"
 
-    return board, next_player
+    return next_player
 
 
 def game(
@@ -154,7 +154,7 @@ def game(
         if __debug__:
             playback.info(turn_info(turn, player, action, possible_actions))
         try:
-            board, player = play_turn(board, player, action)
+            player = play_turn(board, player, action)
         except Exception as e:
             logger.error(f"Exception: {player=}, {action=}, {possible_actions=}")
             playback.error(f"Exception: {player=}, {action=}, {possible_actions=}")
