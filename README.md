@@ -59,12 +59,23 @@ def action(
 that receives the board state, legal actions, and the player's id and returns an int representing the index of the pit that is chosen.
 See `mancala/groups/example_group/action.py`.
 
+### Copy Board
 NOTE: You are not allowed to change the board within your action function.
 If you need to change it, copy it:
 ```
-from copy import deepcopy
-board = deepcopy(board)
+from mancala.game import copy_board
+board = copy_board(board)
 ```
+
+### Flip Board
+If you want to flip the board for player 1, you can use `flip_board` from `mancala.game`:
+```
+from mancala.game import flip_board
+board = flip_board(board) 
+```
+You don't need to copy the board if you flip it,
+flip_board returns a new board with no reference to the original board.
+But make sure you also flip legal_actions before using them and the action returned.
 
 
 ## Logs

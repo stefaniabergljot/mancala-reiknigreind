@@ -168,6 +168,14 @@ def winner(board) -> int:
         return -1
 
 
+def copy_board(board: Board):
+    return array('i', board)
+
+
+def flip_board(board: Board) -> Board:
+    return array('i', board[7:] + board[:7])
+
+
 def game(
     group0: ActionFunction, group1: ActionFunction
 ) -> int:
