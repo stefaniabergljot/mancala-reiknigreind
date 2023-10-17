@@ -52,8 +52,8 @@ Board: TypeAlias = array  # A board is a 14 element array
 ActionSpace: TypeAlias = Tuple[int, ...]
 Action: TypeAlias = int  # An action as an int representing the pit that is chosen.
 # An action function has the signature:
-#  action(board: array, legal_actions: Tuple[int, ...] -> int
-ActionFunction: TypeAlias = Callable[[Board, ActionSpace], Action]
+#  action(board: array, legal_actions: Tuple[int, ...], player: int) -> int
+ActionFunction: TypeAlias = Callable[[Board, ActionSpace, Player], Action]
 #########################################################################################
 
 
@@ -149,7 +149,7 @@ def game(
         possible_actions = legal_actions(board, player)
         assert all(a in RANGES[player] for a in possible_actions)
 
-        action = group(board, possible_actions)
+        action = group(board, possible_actions, player)
         assert action in RANGES[player]
         if __debug__:
             playback.info(turn_info(turn, player, action, possible_actions))

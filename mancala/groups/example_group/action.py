@@ -12,7 +12,7 @@ from typing import Tuple
 NAME = "The name of your group "
 
 
-def action(board: array.array, legal_actions: Tuple[int, ...]) -> int:
+def action(board: array.array, legal_actions: Tuple[int, ...], player: int) -> int:
     # Your action, do somthing smart.
     # Make sure not to change the board.
     # If you need to change it, copy it:
