@@ -50,9 +50,13 @@ At a minimum you need to create the file `manacala/groups/your_group/action.py`
 and provide the function `action` inside that file.
 The `action` function should have the signature 
 ```
-def action(board: array.array, legal_actions: Tuple[int, ...]) -> int
+def action(
+  board: array.array,              # 14-element int array
+  legal_actions: Tuple[int, ...],  # tuple of board indexes
+  player: int                      # 0 for player0, 1 for player 1
+) -> int
 ```
-that receives the board state and legal actions and returns an int representing the index of the pit that is chosen.
+that receives the board state, legal actions, and the player's id and returns an int representing the index of the pit that is chosen.
 See `mancala/groups/example_group/action.py`.
 
 NOTE: You are not allowed to change the board within your action function.
