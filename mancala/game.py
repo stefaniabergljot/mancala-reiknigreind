@@ -92,13 +92,14 @@ def play_turn(board: Board, player: Player, action: int) -> Player:
     assert (
         sum(board) == TOTAL_SEEDS
     ), f"Illegal board on turn start. total_seeds={sum(board)} != {TOTAL_SEEDS=}"
+    assert action in legal_actions(board, player)
     seeds = board[action]
     assert seeds > 0, f"Illegal action, no seeds in pit chosen: {action=}, {seeds=}"
     board[action] = 0
     start = action + 1
-    # Find the end index in the player's cycle
-    # It does not not necessarily correspond to the end index on the board,
-    # because we skip the opponent's Mancala
+    # Find the exclusive end index in the player's cycle.
+    # It does not not necessarily correspond to the end index for the board,
+    # because we skip the opponent's Mancala.
     end_idx = start + seeds
     player_cycle = CYCLES[player]
     for pit in player_cycle[start:end_idx]:
@@ -107,7 +108,8 @@ def play_turn(board: Board, player: Player, action: int) -> Player:
     assert (
         sum(board) == TOTAL_SEEDS
     ), f"Illegal board on after action. total_seeds={sum(board)} != {TOTAL_SEEDS=}"
-    end = player_cycle[end_idx] - 1
+    end = player_cycle[end_idx - 1]  # inclusive end index on board.
+    assert 0 <= end  < 14
 
     # If the last seed lands in the player's own Mancala, they get another turn.
     next_player = player if end == MANCALAS[player] else 1 - player
