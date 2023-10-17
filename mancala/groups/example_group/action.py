@@ -8,14 +8,19 @@ We will only use the function action defined in mancala/group/your_group/action.
 import array
 from typing import Tuple
 
+from mancala.game import copy_board, flip_board
+
 
 NAME = "The name of your group "
 
 
 def action(board: array.array, legal_actions: Tuple[int, ...], player: int) -> int:
     # Your action, do somthing smart.
+    
     # Make sure not to change the board.
     # If you need to change it, copy it:
-    # from copy import deepcopy
-    # board = deepcopy(board)
+    # board = copy_board(board)
+    # Or if you want to flip it:
+    # board = copy_board(board) if player == 0 else flip_board(board)
+
     raise NotImplementedError
