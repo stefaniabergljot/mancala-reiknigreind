@@ -15,11 +15,10 @@ from mancala.groups.group_random.action import action as random_action
 
 
 def play_one_game():
-    turn, (score0, score1) = game(random_action, random_action)
-    print(f"Total turns: {turn}, result: {score0} - {score1}")
-    if score0 > score1:
+    result = game(random_action, random_action)
+    if result == 0:
         print("Player 0 won")
-    elif score0 < score1:
+    elif result == 1:
         print("Player 1 won")
     else:
         print("Draw")

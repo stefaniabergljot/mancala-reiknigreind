@@ -133,9 +133,65 @@ def play_turn(board: Board, player: Player, action: int) -> Player:
     return next_player
 
 
+def is_finished(board: Board) -> bool:
+    return sum(board[AREA0]) == 0 or sum(board[AREA1]) == 0
+
+
+def winner(board) -> int:
+    """Find the winner of a game
+
+    Parameters
+    ----------
+    board : array.arry
+        A mancala board that is finished
+
+    Returns
+    -------
+    int
+        0 if player0 won;
+        1 if player1 won;
+        -1 if draw.
+    """
+    player0_score, player1_score = (
+        sum(board[AREA0]) + board[MANCALA0],
+        sum(board[AREA1]) + board[MANCALA1],
+    )
+    assert (
+        player0_score + player1_score == TOTAL_SEEDS
+    ), f"Illegal state and game end: {player0_score=}, {player1_score=}."
+
+    if player0_score > player1_score:
+        return 0
+    elif player0_score < player1_score:
+        return 1
+    else:
+        return -1
+
+
 def game(
     group0: ActionFunction, group1: ActionFunction
-) -> Tuple[int, Tuple[float, float]]:
+) -> int:
+    """Play one game of mancala
+
+    Parameters
+    ----------
+    group0 : ActionFunction
+        An action function for group/player/agent 0
+    group1 : ActionFunction
+        An action function for group/player/agent 1
+
+    Returns
+    -------
+    int
+        0 if player0 won;
+        1 if player1 won;
+        -1 if draw.
+
+    Raises
+    ------
+    e
+        Exception if the board state is illegal.
+    """
     groups = (group0, group1)
     board = initial_board()
     player = 0
@@ -143,7 +199,7 @@ def game(
         logger.debug(f"Starting game at {dt.datetime.now()}")
 
     turn = 0
-    while True:
+    while not is_finished(board):
         turn += 1
         group = groups[player]
         possible_actions = legal_actions(board, player)
@@ -161,29 +217,8 @@ def game(
             raise e
         if __debug__:
             playback.info(f"\n{board_repr(board, action)}\n")
-        if sum(board[AREA0]) == 0 or sum(board[AREA1]) == 0:
-            break
 
-    player0_score, player1_score = (
-        sum(board[AREA0]) + board[MANCALA0],
-        sum(board[AREA1]) + board[MANCALA1],
-    )
-    assert (
-        player0_score + player1_score == TOTAL_SEEDS
-    ), f"Illegal state and game end: {player0_score=}, {player1_score=}."
-    if player0_score > player1_score:
-        result = (1.0, 0.0)
-    elif player0_score < player1_score:
-        result = (0.0, 1.0)
-    else:
-        result = (0.5, 0.5)
-
-    if __debug__:
-        playback.info(
-            f"\n----------------------------------\n              RESULT:\n              {player0_score} -{player1_score}\n----------------------------------\n"
-        )
-
-    return turn, result
+    return winner(board)
 
 
 def board_repr(B: array, action: int) -> str:
