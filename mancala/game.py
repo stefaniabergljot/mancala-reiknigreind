@@ -124,21 +124,28 @@ def play_turn(board: Board, player: Player, action: int) -> Player:
     if __debug__ and player == next_player:
         playback.info(f"  ++ PLAY AGAIN: end={end}")
 
-    # If the last seed lands in an empty pit on their side,
-    # they capture that seed and any seeds in the opposite pit,
+    # If the last seed lands in an empty pit on their side
+    # and there are seeds in the opposite pit,
+    # then the player captures that seed and all seeds in the opposite pit,
     # placing all of them in their Mancala.
     start_pit = player * SHIFT
-    if board[end] == 1 and ((start_pit) <= end < (start_pit + SHIFT)):
-        board[end] = 0
+    if board[end] == 1 and ((start_pit) <= end < (start_pit + 6)):
         opposite = 12 - end
         stolen = board[opposite]
-        if __debug__:
-            playback.info(f"  ++ CAPTURE: {end=}, {opposite=}, {stolen=}")
-        board[opposite] = 0
-        board[MANCALAS[player]] += stolen + 1
+        if stolen != 0:
+            "Capture!"
+            if __debug__:
+                playback.info(f"  ++ CAPTURE: {end=}, {opposite=}, {stolen=}")
+            board[end] = 0
+            board[opposite] = 0
+            board[MANCALAS[player]] += stolen + 1
+        else:
+            if __debug__:
+                playback.info(f"  ++ Potential capture but nothing in opposite pit: {end=}, {opposite=}, {stolen=}")
+            pass
     assert (
         sum(board) == TOTAL_SEEDS
-    ), f"Illegal board on after capture. total_seeds={sum(board)} != {TOTAL_SEEDS=}"
+    ), f"Illegal board after capture. total_seeds={sum(board)} != {TOTAL_SEEDS=}"
 
     return next_player
 
