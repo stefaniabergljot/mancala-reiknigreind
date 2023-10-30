@@ -59,6 +59,9 @@ def action(
 that receives the board state, legal actions, and the player's id and returns an int representing the index of the pit that is chosen.
 See `mancala/groups/example_group/action.py`.
 
+### Pull request
+When you want to hand in your player, create a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request).
+
 ### Copy Board
 NOTE: You are not allowed to change the board within your action function.
 If you need to change it, copy it:
