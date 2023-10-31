@@ -24,6 +24,9 @@ as they are now implemented. If you add more logging without enclosing it in
 python -OO sandbox.py
 ```
 
+### Competition
+`competition.py` runs a competition between all groups in `mancala.groups`.
+
 
 ## Board state
 The board is represented as a 14-element `array.array`.
