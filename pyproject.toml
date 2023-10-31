@@ -2,8 +2,13 @@
 name = "mancala"
 version = "0.1.0"
 description = ""
-authors = ["Máni Bernharðsson <manib@hey.com>", "Tómas Philip Rúnarsson <tpr@hi.is>, ChatGPT"]
+authors = ["Máni Bernharðsson <manib@hi.com>", "Tómas Philip Rúnarsson <tpr@hi.is>, ChatGPT"]
 readme = "README.md"
+
+[[tool.poetry.source]]
+name = "pytorch-cpu-src"
+url = "https://download.pytorch.org/whl/cpu"
+priority="explicit"
 
 [tool.ruff]
 # Enable all `pydocstyle` rules, limiting to those that adhere to the
@@ -21,6 +26,8 @@ convention = "numpy"
 [tool.poetry.dependencies]
 python = "<3.13,>=3.9"
 numpy = "^1.26.0"
+pandas = "^2.1.2"
+torch = {version = "^2.1.0+cpu", source = "pytorch-cpu-src"}
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.5.1"
