@@ -30,7 +30,7 @@ def action(board, legal_actions, player: int) -> int:
 
     epCount = 600000
 
-    pth = ""
+    pth = 'mancala/groups/teymi2/'
     w1 = torch.load(pth + 'w1_trained_'+str(epCount)+'.pth', map_location=torch.device('cpu'))
     w2 = torch.load(pth + 'w2_trained_'+str(epCount)+'.pth', map_location=torch.device('cpu'))
     b1 = torch.load(pth + 'b1_trained_'+str(epCount)+'.pth', map_location=torch.device('cpu'))
