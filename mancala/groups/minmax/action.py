@@ -1,6 +1,8 @@
 from array import array
 from typing import List, Tuple
 
+import numpy as np
+
 from mancala.game import (
     play_turn,
     copy_board,
@@ -16,16 +18,25 @@ MIN_SCORE = -100
 MAX_SCORE = 100
 
 
-def action(board: array, legal_actions: Tuple[int, ...], player: int, depth: int = 5) -> int:
+def softmax(scores):
+    e_x = np.exp(scores - np.max(scores))
+    return e_x / e_x.sum()
+
+
+def action(board: array, legal_actions: Tuple[int, ...], player: int, depth: int = 6) -> int:
     alpha = MIN_SCORE
     beta = MAX_SCORE
-    rewards: List[Tuple[int, int]] = []
+    #rewards: List[Tuple[int, int]] = []
+    scores = []
     for action in legal_actions:
         child = copy_board(board)
         next_player = play_turn(child, player, action)
         score = alphabeta(child, depth, player, alpha, beta, next_player)
-        rewards.append((action, score))
-    chosen_action, max_score = max(rewards, key=lambda e: e[1])
+        scores.append(score)
+        # rewards.append((action, score))
+
+    chosen_action = np.random.choice(legal_actions, 1, p=softmax(scores))[0]
+    # chosen_action, max_score = max(rewards, key=lambda e: e[1])
     return chosen_action
 
 
