@@ -25,7 +25,12 @@ python -OO sandbox.py
 ```
 
 ### Competition
-`competition.py` runs a competition between all groups in `mancala.groups`.
+Use
+```
+python competition.py -N <x>
+```
+to play `x` double-round competition between all groups in `mancala.groups`.
+By default `x = 10`.
 
 
 ## Board state
