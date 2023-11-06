@@ -35,8 +35,12 @@ for group in group_dirs:
         continue
     loader = importlib.machinery.SourceFileLoader('group_name', group + '/action.py')
     mod = types.ModuleType(loader.name)
-    loader.exec_module(mod)
-    groups.append(Group(group_name, mod.action))
+    try:
+        loader.exec_module(mod)
+    except Exception as e:
+        print(f'Excluding group {group_name}. Could not load its module:\n{e}')
+    else:
+        groups.append(Group(group_name, mod.action))
 
 
 # Let everybody play against everbody (two rounds, home and away).
