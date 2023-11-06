@@ -2,20 +2,17 @@ import torch
 import numpy as np
 import math
 
+from mancala.groups.group_3A import Qnetwork
 
+# Load the model from 'model.pth'
 model = torch.load('mancala/groups/group_3A/model.pth3')
 model.eval()
 
 
 def action(state, legalactions, player):
-    
     q_values = []
     action = 0
     
-    # Load the model from 'model.pth'
-
-
-
     # Use the model to compute the state and action
     q_values = model(torch.from_numpy(np.array(state)).float().unsqueeze(0)) # a tensor of shape (1, n_actions)
     q_values = q_values.flatten().tolist() #make q's as list for easy iteration
