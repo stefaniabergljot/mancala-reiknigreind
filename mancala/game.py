@@ -80,6 +80,14 @@ CYCLES = (cycle0, cycle1)
 #########################################################################################
 
 
+class ActionException(Exception):
+    def __init__(self, message, action, player, legal_actions):
+        super().__init__(message)
+        self.action = action
+        self.player = player
+        self.legal_actions = legal_actions
+
+
 def initial_board() -> array:
     return array("i", 2 * (6 * [4] + [0]))
 
@@ -233,7 +241,6 @@ def game(group0: ActionFunction, group1: ActionFunction) -> int:
         assert all(a in RANGES[player] for a in possible_actions)
 
         action = group(board, possible_actions, player)
-        assert action in RANGES[player]
         if __debug__:
             playback.info(turn_info(turn, player, action, possible_actions))
         try:
@@ -241,7 +248,7 @@ def game(group0: ActionFunction, group1: ActionFunction) -> int:
         except Exception as e:
             logger.error(f"Exception: {player=}, {action=}, {possible_actions=}")
             playback.error(f"Exception: {player=}, {action=}, {possible_actions=}")
-            raise e
+            raise ActionException(str(e), action, player, possible_actions)
         if __debug__:
             playback.info(f"\n{board_repr(board, action)}\n")
     assert(is_finished(board))
