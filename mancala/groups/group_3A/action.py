@@ -8,8 +8,7 @@ from mancala.groups.group_3A.Qnetwork import QNetwork
 # Load the model from 'model.pth'
 model = QNetwork(14,6)
 
-#model.load_state_dict(torch.load('/Users/tarnarsson/Desktop/mancala/mancala/groups/group_3A/state_dict_model.pth'))
-model.load_state_dict(torch.load('/mancala/groups/group_3A/state_dict_model.pth'))
+model.load_state_dict(torch.load('mancala/groups/group_3A/state_dict_model.pth'))
 
 
 

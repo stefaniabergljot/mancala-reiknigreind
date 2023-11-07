@@ -7,7 +7,7 @@ import types
 
 import pandas as pd
 
-from mancala.game import game as play_game, ActionFunction, ActionException
+from mancala.game import game as play_game, ActionFunction, NoActionException, IllegalActionException
 
 
 parser = argparse.ArgumentParser()
@@ -57,11 +57,14 @@ for i in range(N):
             continue
         try:
             result = play_game(player0.action, player1.action)
-        except ActionException as e:
+        except (NoActionException, IllegalActionException) as e:
             player = player0 if e.player == 0 else player1
-            action = e.action
             legal_actions = e.legal_actions
-            print(f'Expelling {player.name} for causing exception after choosing {action=} as player{e.player} when {legal_actions=} and causing the exception: {str(e)}')
+            if isinstance(e, NoActionException):
+                print(f'Expelling {player.name} for causing exception by failing to choose action as player{e.player} when {legal_actions=}, causing the exception: {str(e)}')
+            else:
+                action = e.action
+                print(f'Expelling {player.name} for causing exception after choosing {action=} as player{e.player} when {legal_actions=} and causing the exception: {str(e)}')
             expelled.append(player)
             continue
 
