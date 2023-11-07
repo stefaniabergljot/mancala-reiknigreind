@@ -7,7 +7,7 @@ import types
 
 import pandas as pd
 
-from mancala.game import game as play_game, ActionFunction
+from mancala.game import game as play_game, ActionFunction, ActionException
 
 
 parser = argparse.ArgumentParser()
@@ -49,9 +49,22 @@ index = pd.MultiIndex.from_tuples((p0.name, p1.name) for p0, p1 in matches)
 columns=[0, 1, -1]
 results = pd.DataFrame(0, index=index, columns=columns)
 
+
+expelled = []
 for i in range(N):
     for player0, player1 in matches:
-        result = play_game(player0.action, player1.action)
+        if player0 in expelled or player1 in expelled:
+            continue
+        try:
+            result = play_game(player0.action, player1.action)
+        except ActionException as e:
+            player = player0 if e.player == 0 else player1
+            action = e.action
+            legal_actions = e.legal_actions
+            print(f'Expelling {player.name} for causing exception after choosing {action=} as player{e.player} when {legal_actions=} and causing the exception: {str(e)}')
+            expelled.append(player)
+            continue
+
         results.loc[(player0.name, player1.name), result] += 1
 
 
