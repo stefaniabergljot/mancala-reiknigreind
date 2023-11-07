@@ -2,14 +2,26 @@ import torch
 import numpy as np
 import math
 
-from mancala.groups.group_3A import Qnetwork
+from Qnetwork import QNetwork
+
 
 # Load the model from 'model.pth'
-model = torch.load('mancala/groups/group_3A/model.pth3')
+model = QNetwork(14,6)
+#model.load_state_dict(torch.load('/Users/tarnarsson/Desktop/mancala/mancala/groups/group_3A/state_dict_model.pth'))
+model.load_state_dict(torch.load('/mancala/groups/group_3A/state_dict_model.pth'))
+
 model.eval()
 
 
 def action(state, legalactions, player):
+
+    #transfroming the data to fit the trained model 
+    #the model knows the state as [P1, P2, P1_states, P2_states]
+    p2 = state.pop(7)
+    state.insert(1,p2)
+
+
+
     q_values = []
     action = 0
     
