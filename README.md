@@ -24,6 +24,14 @@ as they are now implemented. If you add more logging without enclosing it in
 python -OO sandbox.py
 ```
 
+### Competition
+Use
+```
+python competition.py -N <x>
+```
+to play `x` double-round competition between all groups in `mancala.groups`.
+By default `x = 10`.
+
 
 ## Board state
 The board is represented as a 14-element `array.array`.
@@ -58,6 +66,9 @@ def action(
 ```
 that receives the board state, legal actions, and the player's id and returns an int representing the index of the pit that is chosen.
 See `mancala/groups/example_group/action.py`.
+
+### Pull request
+When you want to hand in your player, create a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request).
 
 ### Copy Board
 NOTE: You are not allowed to change the board within your action function.
