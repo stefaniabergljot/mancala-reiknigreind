@@ -72,4 +72,6 @@ for i in range(N):
 
 
 results.columns = ['player0', 'player1', 'draw']
+for player in expelled:
+    print(f'\nPlayer {player.name} was expelled.\n')
 print(results)
