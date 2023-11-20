@@ -12,7 +12,7 @@ To play the game:
 """
 from collections import Counter
 
-from mancala.game import game
+from mancala.game import game, play_series
 from mancala.groups.group_random.action import action as random_action
 from mancala.groups.minmax.action import action as minmax_action
 

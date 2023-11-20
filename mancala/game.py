@@ -268,6 +268,34 @@ def game(group0: ActionFunction, group1: ActionFunction) -> int:
     return winner(board)
 
 
+def create_player(action_fn, model):
+    '''Returns an action function that uses the given model.'''
+    m = model
+    def player(board, legal_actions, player):
+        return action_fn(board, legal_actions, player, m)
+    return player
+
+
+def play_series(players, opponent, N):
+    '''Play N game pairs (home/away) against opponent for each player in players.
+    
+    Returns the proportion of wins for each player in players
+    '''
+    scores = len(players) * [0]
+
+    for player_index, player in enumerate(players):
+        for i in range(N):
+            result = game(player, opponent)
+            if result == 0:
+                scores[player_index] += 1
+            result = game(opponent, player)
+            if result == 1:
+                scores[player_index] += 1
+
+    return [score / N for score in scores]
+
+
+
 def board_repr(B: array, action: int) -> str:
     # B: [Player1's pits, Player1's Mancala, Player2's pits, Player2's Mancala]
 
