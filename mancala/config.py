@@ -10,9 +10,9 @@ import logging
 @dataclass
 class Config:
     LOG_LEVEL: int = (  # Change to logging.ERROR to disable debug.
-        logging.DEBUG
+        logging.ERROR
     )
-    PLAYBACK: bool = True
+    PLAYBACK: bool = False
     LOG_DIRECTORY: str = "./logs/"
 
 
