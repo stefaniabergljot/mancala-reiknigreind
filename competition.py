@@ -1,4 +1,5 @@
 import argparse
+from collections import defaultdict
 from dataclasses import dataclass
 import importlib.machinery
 from itertools import permutations
@@ -40,7 +41,11 @@ for group in group_dirs:
     except Exception as e:
         print(f'Excluding group {group_name}. Could not load its module:\n{e}')
     else:
-        groups.append(Group(group_name, mod.action))
+        try:
+            name = mod.NAME
+        except Exception:
+            name = group_name
+        groups.append(Group(name, mod.action))
 
 
 # Let everybody play against everbody (two rounds, home and away).
@@ -74,4 +79,21 @@ for i in range(N):
 results.columns = ['player0', 'player1', 'draw']
 for player in expelled:
     print(f'\nPlayer {player.name} was expelled.\n')
-print(results)
+print(results, '\n')
+
+scores = defaultdict(float)
+for index in results.index:
+    p0, p1 = index
+    draw_score = 0.5  * float(results.loc[index, 'draw'])
+    scores[p0] += float(results.loc[index, 'player0']) + draw_score
+    scores[p1] += float(results.loc[index, 'player1']) + draw_score
+
+
+
+
+max_length = max(len(key) for key in scores)
+print('Score'.rjust(max_length+8))
+print((max_length + 8) * '-')
+
+print('\n'.join(f'{name.ljust(max_length)}{str(score).rjust(8)}' for name, score in sorted(scores.items(), key=lambda x: x[1], reverse=True)))
+print((max_length + 8) * '-')

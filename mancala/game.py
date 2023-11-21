@@ -247,7 +247,6 @@ def game(group0: ActionFunction, group1: ActionFunction) -> int:
         possible_actions = legal_actions(board, player)
         assert all(a in RANGES[player] for a in possible_actions)
 
-
         try:
             action = group(board, possible_actions, player)
         except Exception as e:
@@ -255,7 +254,6 @@ def game(group0: ActionFunction, group1: ActionFunction) -> int:
         if __debug__:
             playback.info(turn_info(turn, player, action, possible_actions))
         try:
-
             player = play_turn(board, player, action)
         except Exception as e:
             logger.error(f"Exception: {player=}, {action=}, {possible_actions=}")
