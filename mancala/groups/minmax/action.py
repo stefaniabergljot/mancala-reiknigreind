@@ -13,6 +13,8 @@ from mancala.game import (
     get_score,
 )
 
+NAME = 'MinMax'
+
 # Score differential is in [-48, 48], set alpha and beta accordingly:
 MIN_SCORE = -100
 MAX_SCORE = 100
