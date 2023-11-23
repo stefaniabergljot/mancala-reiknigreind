@@ -47,7 +47,12 @@ def load_groups():
                 name = mod.NAME
             except Exception:
                 name = group_name
-            groups.append(Group(name, mod.action))
+            try:
+                action = mod.action
+            except Exception as e:
+                print(f'Excluding group {name}. Could not load its action function:\n{e}')
+            else:
+                groups.append(Group(name, action))
 
     return groups
 
