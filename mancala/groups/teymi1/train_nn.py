@@ -5,12 +5,11 @@ from torch.autograd import Variable
 import array
 import time
 
-from typing import Tuple, TypeAlias
-Board: TypeAlias = array  # A board is a 14 element array
+from typing import Tuple
 
 from mancala.groups.group_random.action import action as random_action
 from mancala.groups.minmax.action import action as minimax_action
-from mancala.game import initial_board, legal_actions, is_finished, play_turn, winner, copy_board, board_repr, flip_board, game
+from mancala.game import initial_board, legal_actions, is_finished, play_turn, winner, copy_board, board_repr, flip_board, game, Board
 
 device = 'cpu'
 

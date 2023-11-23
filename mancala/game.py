@@ -40,7 +40,11 @@ The state of the game is represented in the following way:
 
 from array import array
 import datetime as dt
-from typing import Callable, Tuple, TypeAlias
+from typing import Callable, Tuple
+try:
+    from typing import TypeAlias
+except Exception:
+    from typing_extensions import TypeAlias
 
 from mancala.logger import logger, playback
 

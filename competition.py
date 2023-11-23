@@ -42,17 +42,17 @@ def load_groups():
             loader.exec_module(mod)
         except Exception as e:
             print(f'Excluding group {group_name}. Could not load its module:\n{e}')
-        else:
-            try:
-                name = mod.NAME
-            except Exception:
-                name = group_name
-            try:
-                action = mod.action
-            except Exception as e:
-                print(f'Excluding group {name}. Could not load its action function:\n{e}')
-            else:
-                groups.append(Group(name, action))
+            continue
+        try:
+            name = mod.NAME
+        except Exception:
+            name = group_name
+        try:
+            action = mod.action
+        except Exception as e:
+            print(f'Excluding group {name}. Could not load its action function:\n{e}')
+            continue
+        groups.append(Group(name, action))
 
     return groups
 
