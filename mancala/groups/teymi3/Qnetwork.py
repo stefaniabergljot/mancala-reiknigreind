@@ -15,7 +15,7 @@ MEMORY_SIZE = 10000
 
 # Check if CUDA (GPU support) is available and use it; otherwise, use CPU
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(device)
+
 
 class QNetwork(nn.Module):
     def __init__(self, input_size, output_size):

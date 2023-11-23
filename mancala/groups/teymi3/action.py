@@ -45,15 +45,8 @@ def action(state, legalactions, player):
         q_inf[i-1] = q_values[i-1]
     #q_inf = q_values
 
-
-            
     action = q_values.index(max(q_inf)) # an integer representing the action with the highest q-value
-    print(q_inf)
-    print("MAX index: ", action)
     if player == 1: 
         action += 7
-    
 
-    
-    print(f"Taking action {action} as player {player} when the legalactions are: {legalactions} ")
     return action 
