@@ -122,7 +122,7 @@ def update_model(model, trace, alpha, phi, value, reward, I, gradlnpi, advantage
     I = gamma * I
     return model, I
 
-def learnit(model, alpha = [0.01, 0.001, 0.001], epsilon = 0, debug = False):
+def learnit(model, DATA, alpha = [0.01, 0.001, 0.001], epsilon = 0, debug = False):
     nx = 12*nb+1
     phi = np.zeros((nx,2))
     phiold = np.zeros((nx,2))
@@ -232,7 +232,7 @@ def competition(model):
 
 def dynaQ(model,DATA, iter = 10):
 
-    trace = []*5
+    trace = [[]] * 4
     for _ in range(iter):
         (phiold,phi,action,reward,player) = DATA[np.random.randint(len(DATA))]
         x = Variable(torch.tensor(phi.transpose(), dtype = torch.float, device = device)).view((len(phi),1))
@@ -282,7 +282,7 @@ nx = nb*12 + 1 # number of input neurons
 nh = int(nx/2) # number of hidden neurons
 
 # now perform the actual training and display the computation time
-delta_train_steps = 1000 # how many training steps to perform before testing
+delta_train_steps = 100 # how many training steps to perform before testing
 train_steps = 3000 # how many training steps to perform in total (should be a multiple of delta_train_steps)
 
 model = 5 * [None]  # initialize the model size
@@ -310,7 +310,7 @@ else:
     wins_against_random = np.zeros(train_steps)
     comp_time = np.zeros(train_steps)
 
-DATA = []
+DATA = list()
 for trainstep in range(loadtrainstep,train_steps):
     print("Train step ", trainstep, " / ", train_steps)
     start = time.time()
@@ -319,8 +319,7 @@ for trainstep in range(loadtrainstep,train_steps):
         wins_against_random[trainstep] += war
     print("wins against random = ", wins_against_random[trainstep]/100*100)
     for k in range(delta_train_steps):
-        model, data = learnit(model, alpha)
-    DATA = DATA.extend(data)
+        model, DATA = learnit(model, DATA, alpha)
 
     model = dynaQ(model, DATA)
 
