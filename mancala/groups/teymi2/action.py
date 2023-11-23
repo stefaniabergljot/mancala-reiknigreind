@@ -15,26 +15,27 @@ from torch.autograd import Variable
 NAME = "HOPUR2"
 
 
-def action(board, legal_actions, player: int) -> int:
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    if torch.cuda.is_available():
-        print(torch.cuda.current_device())
-        print(torch.cuda.device(0))
-        print(torch.cuda.device_count())
-        print(torch.cuda.get_device_name(0))
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+if torch.cuda.is_available():
+    print(torch.cuda.current_device())
+    print(torch.cuda.device(0))
+    print(torch.cuda.device_count())
+    print(torch.cuda.get_device_name(0))
 
+pth = 'mancala/groups/teymi2/'
+epCount = 600000
+w1 = torch.load(pth + 'w1_trained_'+str(epCount)+'.pth', map_location=torch.device('cpu'))
+w2 = torch.load(pth + 'w2_trained_'+str(epCount)+'.pth', map_location=torch.device('cpu'))
+b1 = torch.load(pth + 'b1_trained_'+str(epCount)+'.pth', map_location=torch.device('cpu'))
+b2 = torch.load(pth + 'b2_trained_'+str(epCount)+'.pth', map_location=torch.device('cpu'))
+
+
+def action(board, legal_actions, player: int) -> int:
     # if player = 1 flip board
     if player == 1:
         board = flip_board(board)
         legal_actions = [i-7 for i in legal_actions]
 
-    epCount = 600000
-
-    pth = 'mancala/groups/teymi2/'
-    w1 = torch.load(pth + 'w1_trained_'+str(epCount)+'.pth', map_location=torch.device('cpu'))
-    w2 = torch.load(pth + 'w2_trained_'+str(epCount)+'.pth', map_location=torch.device('cpu'))
-    b1 = torch.load(pth + 'b1_trained_'+str(epCount)+'.pth', map_location=torch.device('cpu'))
-    b2 = torch.load(pth + 'b2_trained_'+str(epCount)+'.pth', map_location=torch.device('cpu'))
     nx = 14
     na = len(legal_actions)
     xa = np.zeros((na,nx)) # all after-states for the different moves
