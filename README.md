@@ -18,7 +18,7 @@ When training your model you will probably want to disable playback
 and debug logging and enable optimizations to speed up the code.
 Use the '-00' flag. It will remove all logging code and assertions
 as they are now implemented. If you add more logging without enclosing it in 
-`if __debug__:` you will also want to change the logging configuration in `mancala/config.py` to `Config.LOG_LEVEL = logging.ERROR` and `Congig.PLAYBACK = False`.
+`if __debug__:` you will also want to change the logging configuration in `mancala/config.py` to `Config.LOG_LEVEL = logging.ERROR` and `Config.PLAYBACK = False`.
 
 ```
 python -OO sandbox.py
@@ -31,6 +31,14 @@ python competition.py -N <x>
 ```
 to play `x` double-round competition between all groups in `mancala.groups`.
 By default `x = 10`.
+
+
+### Interactive play
+Use
+```
+python play.py
+```
+to play interactively against any of the groups in `mancala.groups`.
 
 
 ## Board state
