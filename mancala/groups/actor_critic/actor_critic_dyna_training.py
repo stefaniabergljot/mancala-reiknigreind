@@ -122,7 +122,7 @@ def update_model(model, trace, alpha, phi, value, reward, I, gradlnpi, advantage
     I = gamma * I
     return model, I
 
-def learnit(model, DATA, alpha = [0.01, 0.001, 0.001], epsilon = 0, debug = False):
+def learnit(model, alpha = [0.01, 0.001, 0.001], epsilon = 0, debug = False):
     nx = 12*nb+1
     phi = np.zeros((nx,2))
     phiold = np.zeros((nx,2))
@@ -138,7 +138,7 @@ def learnit(model, DATA, alpha = [0.01, 0.001, 0.001], epsilon = 0, debug = Fals
     # the player to start is randomly chosen
     player = random.randint(0,1)
     minmaxplayer = random.randint(0,1)
-    DATA = []
+    data = []
     while still_going(board):
         if player == 1: # player 0 owns the neural network, player 1 borrows it!
             flip_brd = flip_board(board)
@@ -175,27 +175,27 @@ def learnit(model, DATA, alpha = [0.01, 0.001, 0.001], epsilon = 0, debug = Fals
                     if player != minmaxplayer:
                         model, I[player] = update_model(model, traces[player], alpha, phi[:,player], value=0.0, reward=0.0, I = I[player], gradlnpi = grad_ln_pi[player], advantage = advantage[player])
                 if player != minmaxplayer:
-                    DATA.append((phiold[:,player],phi[:,player],action,wplayer==player,player))
+                    data.append((phiold[:,player],phi[:,player],action,wplayer==player,player))
             else: # we have a draw so we update both players with 0.5 reward
                 if player != minmaxplayer:
                     model, I[player] = update_model(model, traces[player], alpha, phiold[:,player], value=0.0, reward=0.5, I = I[player], gradlnpi = grad_ln_pi[player], advantage = advantage[player])
                     model, I[1-player] = update_model(model, traces[1-player], alpha, phiold[:,1-player], value=0.0, reward=0.5, I = I[1-player], gradlnpi = grad_ln_pi[1-player], advantage = advantage[1-player])            
                     model, I[player] = update_model(model, traces[player], alpha, phi[:,player], value=0.0, reward=0.5, I = I[player], gradlnpi = grad_ln_pi[player], advantage = advantage[player])
                 if player != minmaxplayer:
-                    DATA.append((phiold[:,player],phi[:,player],action,0.5,player))
+                    data.append((phiold[:,player],phi[:,player],action,0.5,player))
             break
         # if the game is not over, then we update the last known state for the player that just moved
         if player != minmaxplayer:
             model, I[player] = update_model(model, traces[player], alpha, phiold[:,player], value=value, reward=0.0, I = I[player], gradlnpi = grad_ln_pi[player], advantage = advantage[player])
         if player != minmaxplayer:
-            DATA.append((phiold[:,player],phi[:,player],action,0,player))
+            data.append((phiold[:,player],phi[:,player],action,0,player))
         phiold[:,player] = phi[:,player]
         #grad_ln_pi[player] = gradlnpi
         
 
         player = new_player
 
-    return model, DATA
+    return model, data
 
 def competition(model):
     n = 2 # two players!
@@ -230,7 +230,7 @@ def competition(model):
         return 0.0
     return 1.0
 
-def dynaQ(model,DATA, iter = 10):
+def dynaQ(model, iter = 10):
 
     trace = [[]] * 4
     for _ in range(iter):
@@ -319,9 +319,10 @@ for trainstep in range(loadtrainstep,train_steps):
         wins_against_random[trainstep] += war
     print("wins against random = ", wins_against_random[trainstep]/100*100)
     for k in range(delta_train_steps):
-        model, DATA = learnit(model, DATA, alpha)
+        model, data = learnit(model, alpha)
+        DATA.extend(data)
 
-    model = dynaQ(model, DATA)
+    model = dynaQ(model)
 
     torch.save(model[0], './ac/b1_trained_'+str(trainstep)+'.pth')
     torch.save(model[1], './ac/w1_trained_'+str(trainstep)+'.pth')
