@@ -480,8 +480,8 @@ train_steps = 7000 # how many training steps to perform in total (should be a mu
 
 model = 5 * [None]  # initialize the model size
 
-if False: # this is a comment for when you want to load a previously trained model, the set True to False
-    loadtrainstep = 3615 # choose the training step to load and continue training
+if True: # this is a comment for when you want to load a previously trained model, the set True to False
+    loadtrainstep = 1806 # choose the training step to load and continue training
     model[0] = torch.load('./ac/b1_trained_'+str(loadtrainstep)+'.pth')
     model[1] = torch.load('./ac/w1_trained_'+str(loadtrainstep)+'.pth')
     model[2] = torch.load('./ac/b2_trained_'+str(loadtrainstep)+'.pth')
