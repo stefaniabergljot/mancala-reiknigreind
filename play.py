@@ -33,6 +33,11 @@ players = [human, oppenent]
 random.shuffle(players)
 
 result = play_game(players[0].action, players[1].action)
-print(f'{players[result].name} won')
+
+if result >= 0:
+    print(f'{players[result].name} won')
+else:
+    print("its a draw")
+
 
 
