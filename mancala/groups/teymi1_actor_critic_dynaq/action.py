@@ -26,12 +26,12 @@ AREA1 = slice(7, 13)
 
 nb = 20
 model = 5 * [None]
-loadtrainstep = 3279
-model[0] = torch.load('mancala/groups/actor_critic/ac/b1_trained_'+str(loadtrainstep)+'.pth')
-model[1] = torch.load('mancala/groups/actor_critic/ac/w1_trained_'+str(loadtrainstep)+'.pth')
-model[2] = torch.load('mancala/groups/actor_critic/ac/b2_trained_'+str(loadtrainstep)+'.pth')
-model[3] = torch.load('mancala/groups/actor_critic/ac/w2_trained_'+str(loadtrainstep)+'.pth')
-model[4] = torch.load('mancala/groups/actor_critic/ac/theta_'+str(loadtrainstep)+'.pth')
+loadtrainstep = 5796
+model[0] = torch.load('mancala/groups/teymi1_actor_critic_dynaq/ac/b1_trained_'+str(loadtrainstep)+'.pth')
+model[1] = torch.load('mancala/groups/teymi1_actor_critic_dynaq/ac/w1_trained_'+str(loadtrainstep)+'.pth')
+model[2] = torch.load('mancala/groups/teymi1_actor_critic_dynaq/ac/b2_trained_'+str(loadtrainstep)+'.pth')
+model[3] = torch.load('mancala/groups/teymi1_actor_critic_dynaq/ac/w2_trained_'+str(loadtrainstep)+'.pth')
+model[4] = torch.load('mancala/groups/teymi1_actor_critic_dynaq/ac/theta_'+str(loadtrainstep)+'.pth')
 
 # assume that player 0 is allways the one to play!
 def one_hot_encode(brd):

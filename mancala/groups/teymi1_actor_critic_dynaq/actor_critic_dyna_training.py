@@ -125,7 +125,7 @@ def softmax_policy_(xa,  model, hard=False):
         m = torch.argmax(pi) # greedy
     return va, m
 
-def update_model(model, trace, alpha, phi, value, reward, I, gradlnpi, advantage, gamma = 1.0, lam = 0.95):
+def update_model(model, trace, alpha, phi, value, reward, I, gradlnpi, advantage, gamma = 1.0, lam = 0.92):
     # extract all the weights used by the neural network
     # b1 = model[0] w1 = model[1] b2 = model[2] w2 = model[3] theta = model[4]
 
@@ -213,8 +213,10 @@ def learnit2(model, alpha = [0.01, 0.001, 0.001], mmdepth = 3):
     learningplayer = 0
     data = []
     priority_data = []
+    is_starting = True
 
     if random.randint(0,1) == 1:
+        is_starting = False
         # random chance that minmax starts
         while True:
             possible_actions = legal_actions(board, 0)
@@ -465,7 +467,7 @@ start = time.time()
 device = torch.device('cpu')
 
 # parameters for the training algorithm
-alpha = [0.01, 0.001, 0.001]  # step size for PG and then each layer of the neural network
+alpha = [0.001, 0.0001, 0.0001]  # step size for PG and then each layer of the neural network
 #alpha = [0.01, 0.005, 0.005]
 
 lam = 0.0 # lambda parameter in TD(lam-bda)
@@ -480,8 +482,8 @@ train_steps = 7000 # how many training steps to perform in total (should be a mu
 
 model = 5 * [None]  # initialize the model size
 
-if True: # this is a comment for when you want to load a previously trained model, the set True to False
-    loadtrainstep = 1806 # choose the training step to load and continue training
+if False: # this is a comment for when you want to load a previously trained model, the set True to False
+    loadtrainstep = 5367 # choose the training step to load and continue training
     model[0] = torch.load('./ac/b1_trained_'+str(loadtrainstep)+'.pth')
     model[1] = torch.load('./ac/w1_trained_'+str(loadtrainstep)+'.pth')
     model[2] = torch.load('./ac/b2_trained_'+str(loadtrainstep)+'.pth')
@@ -520,7 +522,8 @@ for trainstep in range(loadtrainstep,train_steps):
     for k in range(delta_train_steps):
         #start_time = time.time()
         #model, data, priority_data, rew = learnit2(model, alpha, 1)
-        model, data, priority_data, rew = learnit2(model, [0.01, 0.001, 0.001], 4)
+        #model, data, priority_data, rew = learnit2(model, [0.01, 0.001, 0.001], 4)
+        model, data, priority_data, rew = learnit2(model, [0.001, 0.0001, 0.0001], 4)
         #print("Iteration took " + str(time.time() - start_time))
         DATA.extend(data)
         PRIORITY_DATA.extend(priority_data)
