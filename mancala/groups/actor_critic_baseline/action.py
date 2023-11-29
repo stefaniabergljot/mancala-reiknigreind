@@ -26,7 +26,7 @@ AREA1 = slice(7, 13)
 
 nb = 20
 model = 5 * [None]
-loadtrainstep = 258
+loadtrainstep = 686
 model[0] = torch.load('mancala/groups/actor_critic_baseline/ac/b1_trained_'+str(loadtrainstep)+'.pth')
 model[1] = torch.load('mancala/groups/actor_critic_baseline/ac/w1_trained_'+str(loadtrainstep)+'.pth')
 model[2] = torch.load('mancala/groups/actor_critic_baseline/ac/b2_trained_'+str(loadtrainstep)+'.pth')
